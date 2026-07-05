@@ -1,0 +1,6 @@
+{
+  "name": "Zinger Plus",
+  "description": "Premium fast food and delivery companion application with high-contrast, immersive visual themes and interactive ordering flow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

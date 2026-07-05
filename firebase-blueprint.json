@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "user": {
+      "title": "User Profile",
+      "description": "Information about registered customers and administrators",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Authentication UID" },
+        "email": { "type": "string", "description": "Email address" },
+        "displayName": { "type": "string", "description": "Full name of the user" },
+        "photoURL": { "type": "string", "description": "URL to the user's profile image" },
+        "phone": { "type": "string", "description": "Phone number for deliveries" },
+        "address": { "type": "string", "description": "Physical delivery address" },
+        "isAdmin": { "type": "boolean", "description": "True if the user is an administrator" },
+        "tier": { "type": "string", "description": "Loyalty tier (e.g., BRONZE, SILVER, GOLD)" },
+        "points": { "type": "number", "description": "Loyalty points earned" }
+      },
+      "required": ["uid", "email"]
+    },
+    "order": {
+      "title": "Delivery Order",
+      "description": "Details about a customer's order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique Order ID" },
+        "userId": { "type": "string", "description": "The UID of the ordering customer" },
+        "items": { "type": "array", "description": "Serialized list of products ordered" },
+        "subtotal": { "type": "number", "description": "Cost of food items" },
+        "tax": { "type": "number", "description": "Sales tax" },
+        "deliveryFee": { "type": "number", "description": "Delivery charge" },
+        "totalAmount": { "type": "number", "description": "Grand total paid" },
+        "status": { "type": "string", "enum": ["received", "preparing", "shipping", "arrived"] },
+        "riderName": { "type": "string", "description": "Assigned rider name" },
+        "riderRating": { "type": "number", "description": "Rider's average rating" },
+        "riderPic": { "type": "string", "description": "Rider profile picture URL" },
+        "etaMinutes": { "type": "number", "description": "Estimated time of arrival" },
+        "date": { "type": "string", "description": "Readable timestamp string" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of creation" }
+      },
+      "required": ["id", "userId", "items", "totalAmount", "status"]
+    },
+    "product": {
+      "title": "Menu Product",
+      "description": "A food item available on the restaurant's menu",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Product identifier" },
+        "name": { "type": "string", "description": "Product name" },
+        "description": { "type": "string", "description": "Food description" },
+        "price": { "type": "number", "description": "Product price in PKR" },
+        "category": { "type": "string", "description": "Food category identifier" },
+        "imageUrl": { "type": "string", "description": "Food photo URL" },
+        "rating": { "type": "number", "description": "Average review rating" },
+        "isBestSeller": { "type": "boolean" },
+        "isSizzling": { "type": "boolean" },
+        "isNew": { "type": "boolean" },
+        "badgeText": { "type": "string" }
+      },
+      "required": ["id", "name", "price", "category"]
+    },
+    "coupon": {
+      "title": "Promo Coupon",
+      "description": "Active promotional code for discounts",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Uppercase alphanumeric promo code" },
+        "discount": { "type": "string", "description": "Promo discount headline (e.g., 50% OFF)" },
+        "desc": { "type": "string", "description": "Promo code terms" }
+      },
+      "required": ["code", "discount"]
+    }
+  },
+  "firestore": {
+    "users/{uid}": {
+      "schema": "user",
+      "description": "User profiles stored by Auth UID"
+    },
+    "orders/{orderId}": {
+      "schema": "order",
+      "description": "Order records stored in global delivery stream"
+    },
+    "products/{productId}": {
+      "schema": "product",
+      "description": "Persistent menu product list"
+    },
+    "coupons/{couponCode}": {
+      "schema": "coupon",
+      "description": "Active system promo codes"
+    }
+  }
+}
